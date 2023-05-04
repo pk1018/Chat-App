@@ -86,7 +86,7 @@ const loginUser=async (req,res)=>{
         const user= await userModel.findById(userId)
       
            
-        res.status(200).json(user)
+        res.status(200).json(user) 
     
     } catch (error) {
        console.log(error)
