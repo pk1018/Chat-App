@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
+import { useContext } from "react";
 import {Alert, Button, Form, Row, Col, Stack} from "react-bootstrap";
+import { AuthContext } from "../context/AuthContext";
 
 function Login() {
+  const { loginInfo, loginError, updateLoginInfo, loginUser, isLoginLoading, logoutUser } = useContext(AuthContext);
+
   return (
     <>
-      <Form>
+      <Form onSubmit={loginUser}>
         <Row style={{
           height: "100vh",
           justifyContent: "center",
@@ -14,12 +18,16 @@ function Login() {
             <Stack gap={3}>
               <h2>Login</h2>
               
-              <Form.Control placeholder="Email" type="email"/>
-              <Form.Control placeholder="Password" type="password"/>
+              <Form.Control placeholder="Email" type="email" onChange={(e)=> {updateLoginInfo({...loginInfo, email: e.target.value})}}/>
+              <Form.Control placeholder="Password" type="password" onChange={(e)=>{updateLoginInfo({...loginInfo, password: e.target.value})}}/>
 
-              <Button variant="primary" type="submit">Login</Button>
+              <Button variant="primary" type="submit">
+                {isLoginLoading ? "Logging into your account": "Login"}
+              </Button>
 
-              <Alert variant="danger"><p>An error occured</p></Alert>
+              { 
+                loginError?.error && <Alert variant="danger"><p>{loginError?.message}</p></Alert>
+              }
             </Stack>
           </Col>
         </Row>
