@@ -13,4 +13,4 @@
 Team members
 
 - [**R**ushabh Maru](https://github.com/RushabhM03) - rushabh.maru123@gmail.com
-- [**P**ranav Kute](https://github.com/pk1018) - email@gmail.com
+- [**P**ranav Kute](https://github.com/pk1018) - kutepranav18@gmail.com
