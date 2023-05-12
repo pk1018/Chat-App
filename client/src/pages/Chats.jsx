@@ -1,13 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import { ChatContext } from "../context/chatContext";
 import { Container, Stack } from "react-bootstrap";
 import Userchat from "../components/chat/Userchat";
 import { AuthContext } from "../context/AuthContext";
 import PotentialChats from "../components/chat/PotentialChats";
+import ChatBox from "../components/chat/ChatBox";
 
 function Chats() {
   const { user } = useContext(AuthContext);
-  const { userChats, isUserChatsLoading, UserChatError } =
+  const { userChats, isUserChatsLoading, updateCurrentChat } =
     useContext(ChatContext);
 
   // console.log("UserChats:",userChats)
@@ -20,13 +22,15 @@ function Chats() {
             {isUserChatsLoading && <p>Loading Chats...</p>}
             {userChats?.map((chat, index) => {
               return (
-                <div key={index}>
+                <div key={index} onClick={() => updateCurrentChat(chat)}>
                   <Userchat chat={chat} user={user} />
                 </div>
               );
             })}
           </Stack>
-          <p>Chat Box</p>
+          
+          <ChatBox/>
+      
         </Stack>
       )}
     </Container>

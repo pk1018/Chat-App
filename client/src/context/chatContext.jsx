@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import { createContext, useCallback, useEffect, useState } from "react";
 import { baseUrl, getRequest, postRequest } from "../utils/services";
 
@@ -8,6 +12,12 @@ export const ChatContextProvider = ({ children, user }) => {
   const [isUserChatsLoading, setUserChatsLoading] = useState(false);
   const [UserChatError, setUserChatsError] = useState(null);
   const [potentialChats, setPotentialChats] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [messages, setMessages] = useState(null);
+  const [isMessagesLoading, setIsMessagesLoading] = useState(false);
+  const [messagesError, setMessagesError] = useState(null);
+
+  console.log("messages", messages);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -33,7 +43,7 @@ export const ChatContextProvider = ({ children, user }) => {
   }, [userChats]);
 
   useEffect(() => {
-    const getUSerChats = async () => {
+    const getUserChats = async () => {
       if (user?._id) {
         setUserChatsLoading(true);
         setUserChatsError(null);
@@ -46,8 +56,30 @@ export const ChatContextProvider = ({ children, user }) => {
       }
     };
 
-    getUSerChats();
+    getUserChats();
   }, [user]);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      setIsMessagesLoading(true);
+      setMessagesError(null);
+
+      const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`);
+
+      setIsMessagesLoading(false);
+      if(response.error){
+        return setMessagesError(response);
+      }
+
+      setMessages(response);
+    }
+
+    getMessages();
+  }, [currentChat]);
+
+  const updateCurrentChat = useCallback((chat) => {
+    setCurrentChat(chat);
+  }, []);
 
   const createChat = useCallback(async (firstId, secondId) => {
     const response = await postRequest(
@@ -73,6 +105,11 @@ export const ChatContextProvider = ({ children, user }) => {
         UserChatError,
         potentialChats,
         createChat,
+        updateCurrentChat,
+        messages,
+        isMessagesLoading,
+        messagesError,
+        currentChat
       }}
     >
       {children}

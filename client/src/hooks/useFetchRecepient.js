@@ -20,7 +20,8 @@ function useFetchRecepientUser(chat, user) {
       setRecepientUser(response);
     };
     getUser();
-  }, []);
+  }, [error, recepientId]);
+  
   return { recepientUser };
 }
 

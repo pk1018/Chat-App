@@ -1,18 +1,19 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import { ChatContext } from "../../context/chatContext";
 import { AuthContext } from "../../context/AuthContext";
 
 function PotentialChats() {
   const { user } = useContext(AuthContext);
-  const { PotentialChats, createChat } = useContext(ChatContext);
+  const { potentialChats, createChat } = useContext(ChatContext);
 
-  console.log("PotentialChats", PotentialChats);
+  //console.log("PotentialChats", potentialChats);
 
   return (
     <div>
       <div className="all-users">
-        {PotentialChats &&
-          PotentialChats.map((u, index) => {
+        {potentialChats &&
+          potentialChats.map((u, index) => {
             return (
               <div
                 className="single-user"

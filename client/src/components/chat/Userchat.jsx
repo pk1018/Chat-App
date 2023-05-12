@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+//import React from "react";
 import useFetchRecepientUser from "../../hooks/useFetchRecepient";
 import { Stack } from "react-bootstrap";
 import avatar from "../../assets/avatar.svg";
@@ -19,7 +20,7 @@ function Userchat({ chat, user }) {
         </div>
 
         <div className="text-content">
-          <div className="name">{recepientUser?.name}</div>
+          <div className="name" style={{color: 'white'}}>{recepientUser?.recepientUser?.name}</div>
 
           <div className="text">Text Message</div>
         </div>
