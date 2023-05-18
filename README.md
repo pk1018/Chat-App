@@ -6,8 +6,22 @@
   
   
 </div>
+<br><br><br>
 
 
+
+## 👨‍💻: : Techstack
+- React
+- Javascript
+- HTML
+- Bootstrap
+- Socket io
+- Mongo db
+
+[![My Skills](https://skillicons.dev/icons?i=react,vite,html,bootstrap,javascript,mongodb&perline=6)](https://skillicons.dev)
+
+
+<br><br><br>
 
 ## 💻: Code setup
 
@@ -45,6 +59,9 @@ npm install
 nodemon
 ```
 
+
+<br><br><br>
+
 ## Socket io synopsis
 [Socket io docs](https://socket.io/docs/v4/) <br>
 Above is the link for the socket io docs
@@ -57,6 +74,9 @@ Main callbacks, events used:
 - to
 - emit
 - on
+
+
+<br><br><br>
 
 
 ## 👩‍💻Contributors
