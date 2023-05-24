@@ -10,7 +10,7 @@
 
 
 
-## 👨‍💻: : Techstack
+## 👨‍💻 Techstack
 - React
 - Javascript
 - HTML
@@ -23,7 +23,7 @@
 
 <br><br><br>
 
-## 💻: Code setup
+## 💻 Code setup
 
 ### Clone the code repository
 ```
@@ -62,7 +62,7 @@ nodemon
 
 <br><br><br>
 
-## Socket io synopsis
+## :accessibility: Socket io synopsis
 [Socket io docs](https://socket.io/docs/v4/) <br>
 Above is the link for the socket io docs
 <p>
