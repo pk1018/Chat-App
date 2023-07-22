@@ -9,11 +9,11 @@ io.on("connection", (socket) => {
 
   // listen to a connection
   socket.on("addNewUser", (userId) => {
-    !onlineUsers.some(user => user.userId === userId) &&
-    onlineUsers.push({
+    !onlineUsers.some((user) => user.userId === userId) &&
+      onlineUsers.push({
         userId,
-        socketId: socket.id
-    });
+        socketId: socket.id,
+      });
 
     console.log("online users", onlineUsers);
 
@@ -22,17 +22,23 @@ io.on("connection", (socket) => {
 
   // add msg
   socket.on("sendMessage", (message) => {
-    const user = onlineUsers.find(user => user.userId === message.recepientId);
-    if(user){
+    const user = onlineUsers.find(
+      (user) => user.userId === message.recepientId
+    );
+    if (user) {
       io.to(user.socketId).emit("getMessage", message);
+      io.to(user.socketId).emit("getNotification", {
+        senderId: message.senderId,
+        isRead: false,
+        date: new Date(),
+      });
     }
-  })
+  });
 
   socket.on("disconnect", () => {
-    onlineUsers = onlineUsers.filter((user => user.socketId !== socket.id));
+    onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
     io.emit("getOnlineUsers", onlineUsers);
-  })
-  
+  });
 });
 
 io.listen(4000);

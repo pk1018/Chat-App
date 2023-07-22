@@ -1,115 +1,92 @@
-const userModel=require("../Models/userModel")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
-const validator=require("validator")
+const userModel = require("../Models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const validator = require("validator");
 
+const generateToken = (_id) => {
+  const jwtkey = process.env.JWT_SECRET_KEY;
 
+  return jwt.sign({ _id }, jwtkey, { expiresIn: "3d" });
+};
+const registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-const generateToken=(_id)=>{
-    const jwtkey=process.env.JWT_SECRET_KEY
+    let user = await userModel.findOne({ email });
 
+    if (user)
+      return res.status(400).json("User with given email already exist...");
+    if (!name || !email || !password)
+      return res.status(400).json("All fields are required");
 
-    return jwt.sign({_id},jwtkey,{expiresIn: "3d"})
-}
-const registerUser=async (req,res)=>{
- try {
-    const {name,email,password}=req.body
-
-    let user=await userModel.findOne({email})
- 
-    if(user) return res.status(400).json("User with given email already exist...")
-    if(!name || !email || !password) return res.status(400).json("All fields are required")
- 
- 
-    if(!validator.isEmail(email)){
-     res.status(400).json("Email must be valid one")
+    if (!validator.isEmail(email)) {
+      res.status(400).json("Email must be valid one");
     }
- 
-    if(!validator.isStrongPassword(password)){
-     res.status(400).json("Password must be a strong one")
-     }
- 
-     user=userModel({name,email,password})
- 
-     const salt=await bcrypt.genSalt(10);
- 
-     user.password=await bcrypt.hash(user.password,salt)
- 
-     await user.save()
-     const token=generateToken(user._id)
- 
- 
-     res.status(200).json({_id:user._id,name,email,token})
- 
- } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-}
-}
 
+    if (!validator.isStrongPassword(password)) {
+      res.status(400).json("Password must be a strong one");
+    }
 
+    user = userModel({ name, email, password });
 
-const loginUser=async (req,res)=>{
-    try {
-       const {email,password}=req.body
-   
-       let user=await userModel.findOne({email})
-    
-       if(!user) return res.status(400).json("Invalid email or password")
+    const salt = await bcrypt.genSalt(10);
 
+    user.password = await bcrypt.hash(user.password, salt);
 
-       const isValidPassword=await bcrypt.compare(password,user.password)
+    await user.save();
+    const token = generateToken(user._id);
 
-    
-    
-       if(!isValidPassword){
-        res.status(400).json("Invalid email or password")
-       }
-    
-      
-     const token=generateToken(user._id)
-    
-    
-        res.status(200).json({_id:user._id,name:user.name,email,token})
-    
-    } catch (error) {
-       console.log(error)
-       res.status(500).json(error)
-   }
-   }
+    return res.status(200).json({ _id: user._id, name, email, token });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-   const findUser=async (req,res)=>{
+    let user = await userModel.findOne({ email });
 
-    const userId=req.params.userId;
-    try {
-        const user= await userModel.findById(userId)
-      
-           
-        res.status(200).json(user) 
-    
-    } catch (error) {
-       console.log(error)
-       res.status(500).json(error)
-   }
-   }
-   
+    if (!user) return res.status(400).json("Invalid email or password");
 
-   const getUser=async (req,res)=>{
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
-    
-    try {
-        const user= await userModel.find()
-      
-           
-        res.status(200).json(user)
-    
-    } catch (error) {
-       console.log(error)
-       res.status(500).json(error)
-   }
-   }
-   
-   
+    if (!isValidPassword) {
+      return res.status(400).json("Invalid email or password");
+    }
 
-module.exports={ registerUser , loginUser ,findUser,getUser}
+    const token = generateToken(user._id);
+
+    res.status(200).json({ _id: user._id, name: user.name, email, token });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
+const findUser = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const user = await userModel.findById(userId);
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    const user = await userModel.find();
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+module.exports = { registerUser, loginUser, findUser, getUser };
