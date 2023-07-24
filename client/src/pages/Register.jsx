@@ -2,6 +2,7 @@
 import {Alert, Button, Form, Row, Col, Stack} from "react-bootstrap";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import Footer from "../components/Footer";
 
 function Register() {
   const { registerInfo, updateRegisterInfo, registerUser, registerError, isRegisterLoading } = useContext(AuthContext);
@@ -47,7 +48,7 @@ function Register() {
       </Form>
         </Col>
       </Row>
-      
+      <Footer/>
     </>
   )
 }

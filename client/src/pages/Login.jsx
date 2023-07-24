@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Alert, Button, Form, Row, Col, Stack } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
+import Footer from "../components/Footer";
 
 function Login() {
   const { loginInfo, loginError, updateLoginInfo, loginUser, isLoginLoading } = useContext(AuthContext);
@@ -39,6 +40,7 @@ function Login() {
           </Form>
         </Col>
       </Row>
+      <Footer />
     </>
   )
 }

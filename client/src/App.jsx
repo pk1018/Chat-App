@@ -5,7 +5,7 @@ import Register from "./pages/Register"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
+//import Footer from "./components/Footer";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/chatContext";
@@ -26,7 +26,7 @@ function App() {
 
         </Routes>
       </Container>
-      <Footer/>
+      
       </ChatContextProvider>
     </>
   )
