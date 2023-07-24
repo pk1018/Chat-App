@@ -20,7 +20,7 @@ function ChatBox() {
     scroll.current?.scrollIntoView({ behaviour: "smooth" });
   }, [messages]);
 
-  if (!recipientUser.recepientUser) {
+  if (!(recipientUser)) {
     return (
       <p style={{ textAlign: "center", width: "100%" }}>
         No converstaion selected yet...
@@ -34,7 +34,7 @@ function ChatBox() {
     );
   }
 
-  if (messages.length < 1) {
+  if (!currentChat) {
     return (
       <p style={{ textAlign: "center", width: "100%" }}>
         No converstaion selected yet...
